@@ -7,7 +7,11 @@ const { Pool } = pkg;
 const app = express();
 
 const pool = new Pool({
-    connectionString: 'postgresql://eduardo@localhost/gitquiz'
+    user: 'eduardo',
+    host: 'localhost',
+    database: 'gitquiz',
+    password: 'asdfqwer', // Set this to your actual password or an empty string if no password
+    port: 5432,
   });
 
 
