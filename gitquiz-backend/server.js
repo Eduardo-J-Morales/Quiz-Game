@@ -11,9 +11,10 @@ const pool = new Pool({
     user: 'eduardo', // Replace with your actual PostgreSQL username
     host: 'localhost',
     database: 'gitquiz',
-    password: null, // Use null instead of an empty string
+    password: 'asdfqwer', // Use null instead of an empty string
     port: 5432,
-    connectionString: 'postgres://eduardo@localhost:/gitquiz'
+    connectionString: 'postgresql://eduardo@localhost/gitquiz'
+
   });
 
 
