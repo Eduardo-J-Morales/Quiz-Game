@@ -16,6 +16,19 @@
   let score = 0;
   let showResult = false;
 
+  function checkAnswer(selectedIndex) {
+    
+    if (selectedIndex === questions[currentQuestionIndex].correctAnswer) {
+      score++;
+    }
+
+    if (currentQuestionIndex < questions.length - 1) {  
+      currentQuestionIndex++;
+    } else {
+      showResult = true;
+    }
+  
+  }
 
 
 </script>
