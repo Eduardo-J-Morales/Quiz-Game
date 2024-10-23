@@ -1,65 +1,59 @@
 <script>
-  let questions = [
-    {
-      question: "Which command is used to create a new Git repository?",
-      options: ["git init", "git start", "git create", "gitnew"],
-      correctAnswer:0
-    },
-    {
-      question: "Which command is used to add files to the staging area?",
-      options: ["git commit", "git add", "git stage", "git push"],
-      correctAnswer:1
-    },
-  ];
+import { onMount } from 'svelte';
 
-  let currentQuestionIndex = 0;
-  let score = 0;
-  let showResult = false;
+let questions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let showResult = false;
 
-  function checkAnswer(selectedIndex) {
-    
-    if (selectedIndex === questions[currentQuestionIndex].correctAnswer) {
-      score++;
-    }
+onMount(async () => {
+  const response = await fetch('http://localhost:3000/questions');
+  questions = await response.json();
+});
 
-    if (currentQuestionIndex < questions.length - 1) {  
-      currentQuestionIndex++;
-    } else {
-      showResult = true;
-    }
-  
+function checkAnswer(selectedIndex) {
+  if (selectedIndex === questions[currentQuestionIndex].correct_answer) {
+    score++;
   }
 
-
-  function restartQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    showResult = false;
+  if (currentQuestionIndex < questions.length - 1) {  
+    currentQuestionIndex++;
+  } else {
+    showResult = true;
   }
+}
+
+function restartQuiz() {
+  currentQuestionIndex = 0;
+  score = 0;
+  showResult = false;
+}
 </script>
 
 <main>
-  <h1>Git Commands Quiz</h1>
+  <h1>Git CLI Quiz</h1>
 
-{#if !showResult}
-<div class="question">
-  <h2>{questions[currentQuestionIndex].question}</h2>
-  <div class="options">
-    {#each questions[currentQuestionIndex].options as option, index}
-      <button on:click={() => checkAnswer(index)}> {option} </button>
-      {/each}
-  </div>
-</div>
-{:else}
-  <div class ="result">
-    <h2>Quiz completed!</h2>
-    <p>Your score: {score} out of {questions.length}</p>
-  <button on:click={restartQuiz}>Restart Quiz</button>
-  </div>
-{/if}
+  {#if questions.length === 0}
+    <p>Loading questions...</p>
+  {:else if !showResult}
+    <div class="question">
+      <h2>{questions[currentQuestionIndex].question}</h2>
+      <div class="options">
+        {#each questions[currentQuestionIndex].options as option, index}
+          <button on:click={() => checkAnswer(index)}>{option}</button>
+        {/each}
+      </div>
+    </div>
+  {:else}
+    <div class="result">
+      <h2>Quiz completed!</h2>
+      <p>Your score: {score} out of {questions.length}</p>
+      <button on:click={restartQuiz}>Restart Quiz</button>
+    </div>
+  {/if}
 </main>
-<style>
 
+<style>
   main {
     text-align: center;
     padding: 1em;
@@ -83,4 +77,23 @@
     flex-direction: column;
     gap: 1em;
   }
-  </style>
+
+  button {
+    background-color:purple;
+    border: 1px solid black;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #fff;
+    color: purple;
+  }
+  
+  @media (min-width: 640px) {
+    main{
+      max-width: none;
+    }
+  }
+</style>
