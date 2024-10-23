@@ -5,16 +5,9 @@ import cors from 'cors';
 const { Pool } = pkg;
 
 const app = express();
-app.use(cors());
 
 const pool = new Pool({
-    user: 'eduardo', // Replace with your actual PostgreSQL username
-    host: 'localhost',
-    database: 'gitquiz',
-    password: 'asdfqwer', // Use null instead of an empty string
-    port: 5432,
     connectionString: 'postgresql://eduardo@localhost/gitquiz'
-
   });
 
 
@@ -24,13 +17,19 @@ app.get('/test', (req, res) => {
 
 app.get('/questions', async (req, res) => {
   try {
+    console.log('Attempting to fetch questions from database...');
     const result = await pool.query('SELECT * FROM questions');
+    console.log('Questions fetched:', result.rows);
     res.json(result.rows);
   } catch (err) {
     console.error('Database error:', err);
     res.status(500).json({ error: 'An error occurred while fetching questions', details: err.message });
   }
 });
+
+app.use(cors({
+  origin: 'http://localhost:5173' // or whatever port your Svelte app is running on
+}));
 
 const PORT = 3000;
 app.listen(PORT, () => {
