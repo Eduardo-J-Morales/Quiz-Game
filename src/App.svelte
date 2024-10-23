@@ -31,6 +31,11 @@
   }
 
 
+  function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    showResult = false;
+  }
 </script>
 
 <main>
