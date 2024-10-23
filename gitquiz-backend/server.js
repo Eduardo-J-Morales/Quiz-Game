@@ -15,6 +15,11 @@ const pool = new Pool({
   port: 5432,
 });
 
+
+app.get('/test', (req, res) => {
+    res.json({ message: 'Server is working' });
+  });
+
 app.get('/questions', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM questions');
