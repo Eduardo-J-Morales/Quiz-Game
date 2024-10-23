@@ -42,18 +42,19 @@
   <h1>Git Commands Quiz</h1>
 
 {#if !showResult}
-<div class="quiestion">
-  <h2>{quiestions[curretQuestionIndex].question}</h2>
+<div class="question">
+  <h2>{questions[currentQuestionIndex].question}</h2>
   <div class="options">
     {#each questions[currentQuestionIndex].options as option, index}
       <button on:click={() => checkAnswer(index)}> {option} </button>
-    {/each}
+      {/each}
   </div>
-
 </div>
-
-
 {:else}
-
-
+  <div class ="result">
+    <h2>Quiz completed!</h2>
+    <p>Your score: {score} out of {questions.length}</p>
+  <button on:click={restartQuiz}>Restart Quiz</button>
+  </div>
+{/if}
 </main>
