@@ -8,12 +8,13 @@ const app = express();
 app.use(cors());
 
 const pool = new Pool({
-  user: 'eduardo',
-  host: 'localhost',
-  database: 'gitquiz',
-  password: '',
-  port: 5432,
-});
+    user: 'eduardo', // Replace with your actual PostgreSQL username
+    host: 'localhost',
+    database: 'gitquiz',
+    password: null, // Use null instead of an empty string
+    port: 5432,
+    connectionString: 'postgres://eduardo@localhost:/gitquiz'
+  });
 
 
 app.get('/test', (req, res) => {
